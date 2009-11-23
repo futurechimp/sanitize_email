@@ -5,12 +5,12 @@ require 'rake/rdoctask'
 begin
   require 'jeweler'
   Jeweler::Tasks.new do |gemspec|
-    gemspec.name = "sanitize_email"
+    gemspec.name = "futurechimp-sanitize_email"
     gemspec.summary = "Tool to aid in development, testing, qa, and production troubleshooting of email issues without worrying that emails will get sent to actual live addresses."
     gemspec.description = %q{Test an application's email abilities without ever sending a message to actual live addresses}
-    gemspec.email = ['peter.boling@gmail.com', 'jtrupiano@gmail.com', 'george@benevolentcode.com']
+    gemspec.email = ['peter.boling@gmail.com', 'jtrupiano@gmail.com', 'george@benevolentcode.com', 'dave.hrycyszyn@headlondon.com']
     gemspec.homepage = "http://github.com/pboling/sanitize_email"
-    gemspec.authors = ["Peter Boling", "John Trupiano", "George Anderson"]
+    gemspec.authors = ["Peter Boling", "John Trupiano", "George Anderson", "Dave Hrycyszyn"]
     gemspec.add_dependency 'actionmailer'
     gemspec.files = ["lib/sanitize_email/custom_environments.rb",
              "lib/sanitize_email/sanitize_email.rb",
@@ -53,10 +53,10 @@ end
 begin
   require 'rake/contrib/sshpublisher'
   namespace :rubyforge do
-    
+
     desc "Release gem and RDoc documentation to RubyForge"
     task :release => ["rubyforge:release:gem", "rubyforge:release:docs"]
-    
+
     namespace :release do
       desc "Publish RDoc to RubyForge."
       task :docs => [:rdoc] do
@@ -75,3 +75,4 @@ begin
 rescue LoadError
   puts "Rake SshDirPublisher is unavailable or your rubyforge environment is not configured."
 end
+
