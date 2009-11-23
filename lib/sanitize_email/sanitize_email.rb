@@ -5,24 +5,24 @@ module NinthBit
   module SanitizeEmail
 
     def self.included(base)
-  
+
       # Adds the following class attributes to the classes that include NinthBit::SanitizeEmail
       base.cattr_accessor :force_sanitize
       base.force_sanitize = nil
-      
+
       # Specify the BCC addresses for the messages that go out in 'local' environments
       base.cattr_accessor :sanitized_bcc
       base.sanitized_bcc = nil
-     
+
       # Specify the CC addresses for the messages that go out in 'local' environments
       base.cattr_accessor :sanitized_cc
       base.sanitized_cc = nil
-    
+
       # The recipient addresses for the messages, either as a string (for a single
       # address) or an array (for multiple addresses) that go out in 'local' environments
       base.cattr_accessor :sanitized_recipients
       base.sanitized_recipients = nil
-      
+
       # Use the 'real' email address as the username for the sanitized email address
       # e.g. "real@example.com <sanitized@example.com>"
       base.cattr_accessor :use_actual_email_as_sanitized_user_name
@@ -53,7 +53,7 @@ module NinthBit
 
         def recipients(*addresses)
           real_recipients(*addresses)
-          if localish? 
+          if localish?
             puts "sanitize_email error: sanitized_recipients is not set" if self.class.sanitized_recipients.nil?
             override_email(:recipients)
           else
@@ -70,17 +70,17 @@ module NinthBit
           real_bcc(*addresses)
           localish? ? override_email(:bcc) : real_bcc
         end
-        
+
         #######
         private
         #######
 
         def override_subject
-          real_recipients.nil? ? real_subject : "(#{real_recipients}) #{real_subject}"
+          real_recipients.nil? ? real_subject : "Sanitized: [#{RAILS_ENV.upcase}](#{real_recipients}) #{real_subject}"
         end
 
         def override_email(type)
-          real_addresses, sanitized_addresses = 
+          real_addresses, sanitized_addresses =
             case type
             when :recipients
               [real_recipients, self.class.sanitized_recipients]
@@ -101,8 +101,9 @@ module NinthBit
           end.flatten
           return out
         end
-        
+
       end
     end
   end # end Module SanitizeEmail
 end # end Module NinthBit
+
